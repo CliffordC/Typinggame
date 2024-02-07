@@ -1,0 +1,106 @@
+html {
+    box-sizing:border-box;
+    -webkit-font-smoothing:antialiased;
+    scroll-behavior:smooth;
+}
+*,
+*:before,
+*:after {
+    box-sizing:inherit;
+}
+*:focus {
+    outline:1px dashed #b50404;
+}
+a {
+    text-decoration:none;
+}
+p {
+    font-size: 1rem;
+    font-weight: 400;
+}
+[id] {
+    scroll-margin-top:40px;
+    @media (min-width:1000px){
+        scroll-margin-top:70px;    
+    }
+}
+body {
+    margin:0;
+    font-family:"Courier New",Courier, "Lucida Sans Typewriter","Lucida Typewriter", monospace;
+    display:flex;
+    font-size: 1rem;
+    font-weight:400;
+    /*
+     *colors
+     */
+    background-color:#131f15;
+    color:#eeae53;
+    justify-content:center;
+    align-items:center;
+    flex-direction:column;
+}
+img {
+    max-width:100%;
+    display:block;
+}
+.headerContent {
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+
+    @media (min-width:800px) {
+        width:800px;
+    }
+}
+.headerTitle {
+    display:flex;
+    margin:0;
+    padding:0 0 0 10px;
+}
+.headerNav {
+    display:flex;
+    flex-direction:row;
+
+}
+.wf-Nav {
+    display: flex;
+    align-items:center;
+    justify-content:center;
+}
+.wf-Nav_Link {
+    margin:0;
+    padding:0 10px;
+    font-size:18px;
+    color:#eeae53;
+    &:hover {
+        border-radius:12px;
+        background-color:#333f35;
+        }
+}
+.wf-Timer {
+    display:flex;
+    width:120px;
+    height:120px;
+    border-radius:50%;
+    background-color:#eeae53;
+    margin:auto;
+}
+.wf-Meter {
+    margin-top:15px;
+    width:650px;
+    height:40px;
+    background-color:#434f45;
+}
+.wf-Library {
+    display:flex;
+    height:55px;
+    width: 600px;
+    background-color:#f3fff5;
+    justify-content:center;
+    align-items:center;
+    padding-top: 50px;
+}
+
+
+
+
