@@ -45,22 +45,39 @@ const qbg = (keymapKey[0].dataset.key)
  * collected in them. Then when a button is pressed
  * the corresponding span can be programmed to change.
  */
+
+
+const letterDict = {
+    'q':keymapKey[0].classList,
+}
+
+
 document.addEventListener("keydown",
     (e)=> {
         if(e.defaultPrevented){
             return;
         }
         let btn = e.key;
-        if(btn==='q'){
-            console.log('it was pressed');
-        }
         
-       //item.style.backgroundColor = colors.pressedStyle; 
+        console.log(btn);
+        if(btn==='q'){
+            letterDict[btn].toggle('pressed');
+        }
 
-     });
-   
+});
 
-
+document.addEventListener("keyup",
+    (e)=> {
+        if(e.defaultPrevented){
+            return;
+        }
+        let btn = e.key;
+        
+        console.log(btn);
+        if(btn==='q'){
+            letterDict[btn].toggle('pressed');
+        }
+});
 
 
 

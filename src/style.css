@@ -6,6 +6,7 @@
     --meter-color-edge:#333f35;
     --library-color:#f3fff5;
     --keyboard-bg-color:#232f25;
+    --key-pressed:#eea ;
     --key-bg-color:#020904;
     --meter-roundness:4px;
 }
@@ -192,7 +193,9 @@ main {
     text-align:center;
     position:relative;
 }
-
+.pressed {
+    background-color:var(--key-pressed);
+}
 .keySpace {
     width:100%;
     font-size:1rem;
