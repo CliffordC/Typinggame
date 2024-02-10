@@ -101,8 +101,19 @@ main {
     height:120px;
     border-radius:50%;
     background-color:var(--s-color);
+    color:var(--meter-color-edge);
     margin:auto;
+    justify-content:center;
+    align-items:center;
 }
+.wf-Timer_Display {
+
+}
+.wf-Timer_Content {
+    font-size:1.2rem;
+    font-weight:600;
+}
+
 .wf-Meter {
     margin-top:15px;
     width:100%;

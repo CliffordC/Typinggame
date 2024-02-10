@@ -6,13 +6,38 @@ const colors = {
 };
 
 /*
+ * Timer display.
+ */
+let  timer = document.querySelector("#Timer_Content");
+
+/*
+ * @param InitialTime in seconds
+ * @output void
+ */
+const timeSub = (InitialTime) => {
+    let time = InitialTime;
+    let cntTerminator = 0;
+
+    setInterval(
+        ()=>{
+            time--;
+        
+            if(time>=cntTerminator){    
+                timer.innerText = time;
+            }else{
+                return;
+            }
+        }
+     ,1000);
+}
+
+/*
  * Keyboard press actions
  */
 
 
 const keymapKey = document.querySelectorAll(".keymapKey");
 const qbg = (keymapKey[0].dataset.key)
-console.log((qbg));
 
 /*
  * TODO: 2/8/24
