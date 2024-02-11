@@ -34,17 +34,7 @@ const timeSub = (InitialTime) => {
 /*
  * Keyboard press actions
  */
-
-
 const keymapKey = document.querySelectorAll(".keymapKey");
-const qbg = (keymapKey[0].dataset.key)
-
-/*
- * TODO: 2/8/24
- * create an array that has all the characters spans 
- * collected in them. Then when a button is pressed
- * the corresponding span can be programmed to change.
- */
 
 //Collection of keys and classlist to manipulate
 const letterDict = {
@@ -82,38 +72,43 @@ const letterDict = {
     '.':keymapKey[31].classList,
     '/':keymapKey[32].classList,
     '_':keymapKey[33].classList
-}
+};
+
+//special characters to ignore
+const specialKeyChars = ['ArrowLeft','ArrowRight','Delete','Backspace'];
 
 const keyPressIndicator = (keyPress) => {
-    letterDict[keyPress].toggle('pressed');
+    console.log(keyPress," <-- That was typed");
+    if(Object.keys(letterDict).includes(keyPress)){
+        letterDict[keyPress].toggle('pressed');
+    }
 }
 
+const keyPressHandler = (keyPressEvent)=> {
+    keyPressEvent.preventDefault();
+
+    let kCode = keyPressEvent.keyCode;
+    let kPressed = keyPressEvent.key.toLowerCase();
+     
+    if(specialKeyChars.includes(keyPressEvent.keyCode))return;
+
+    if(keyPressEvent.repeat)return;
+
+    if(kCode===32){
+        keyPressIndicator('_');
+    }else if(97<=kCode<=122){
+        keyPressIndicator(kPressed);
+    }else{
+        return;
+    }
+}
 document.addEventListener("keydown",
     (e)=> {
-        e.preventDefault();
-        let btn = e.key.toLowerCase();
-
-        if(e.keyCode === 32){
-            keyPressIndicator('_');
-        }
-        else if(65< e.keyCode<=90){
-            keyPressIndicator(btn);
-        }
-
+            keyPressHandler(e);
 });
-
 document.addEventListener("keyup",
-    (e)=> {
-       // if(e.defaultPrevented){
-      //      return;
-       // }
-        let btn = e.key;
-       
-        if(e.keyCode === 32){
-            e.preventDefault();
-            keyPressIndicator('_');
-        }
-        keyPressIndicator(btn);
+    (e)=> {       
+        keyPressHandler(e);
 });
 
 
