@@ -14,13 +14,19 @@ export class TypeSession {
     constructor(){
         this.libraryContent = libraryContent;
         this.dictStr = dictionary[0]
-        this.libraryContent.innerText = this.dictStr;
         this.letterList = this.createLetterList();
         this.currentLetter = this.letterList[0];
         this.currentLetter.setCaret(true);
+        this.displayStr();
         this.currentLetter.flash();
     }
-
+    displayStr(){
+        console.log(this.getLetterList());
+        for(let i=0;i<this.letterList.length;i++){
+            console.log(this.letterList[i]);
+            this.libraryContent.appendChild(this.letterList[i].getCaretDiv());
+        }
+    }
     setTypeSessionContent(newText){
         this.libraryContent.innerText = newText;
     }
@@ -33,7 +39,7 @@ export class TypeSession {
         let result = [];
 
         for(let i=0;i<separatedLetterList.length;i++){
-            result.push(new Letter(separatedLetterList[i]));
+            result.push(new Letter(separatedLetterList[i],this.libraryContent));
         }
         return result;
     }

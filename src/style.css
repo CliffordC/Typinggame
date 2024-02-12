@@ -151,6 +151,10 @@ main {
     opacity:0;
     background-color:var(--bg-color);    
 }
+#mainStr {
+    display:flex;
+    justify-content:center;
+}
 .wf-Keyboard {
     height: 155px;
     width:700px;
