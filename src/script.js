@@ -1,6 +1,8 @@
 /* Author: Clifford Chirwa
  * Controls for site interactivity.
  */
+import { TypeSession } from './js/TypeSession.js';
+
 const colors = {
     pressedStyle: '#121914', 
 };
@@ -30,6 +32,14 @@ const timeSub = (InitialTime) => {
         }
      ,1000);
 }
+/*
+ * Library content 
+ *
+ */
+const typeSession = new TypeSession();
+console.log(typeSession);
+
+
 
 /*
  * Keyboard press actions
@@ -74,23 +84,22 @@ const letterDict = {
     '_':keymapKey[33].classList
 };
 
-//special characters to ignore
-const specialKeyChars = ['ArrowLeft','ArrowRight','Delete','Backspace'];
-
+/*
+ * Controls for displaying keyboard press
+ * to the client.
+ */
 const keyPressIndicator = (keyPress) => {
     console.log(keyPress," <-- That was typed");
     if(Object.keys(letterDict).includes(keyPress)){
         letterDict[keyPress].toggle('pressed');
     }
-}
+};
 
 const keyPressHandler = (keyPressEvent)=> {
     keyPressEvent.preventDefault();
 
     let kCode = keyPressEvent.keyCode;
     let kPressed = keyPressEvent.key.toLowerCase();
-     
-    if(specialKeyChars.includes(keyPressEvent.keyCode))return;
 
     if(keyPressEvent.repeat)return;
 
@@ -102,6 +111,15 @@ const keyPressHandler = (keyPressEvent)=> {
         return;
     }
 }
+
+/*
+ * controls for fashing a caret that 
+ * moves through the library
+ * content of the screen.
+ */
+
+
+
 document.addEventListener("keydown",
     (e)=> {
             keyPressHandler(e);
