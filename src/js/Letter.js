@@ -37,8 +37,8 @@ export class Letter {
     setNextLetter(letter){
         this.nextLetter = letter;
     }
-    getNextLetter(){
-        return this.nextLetter;
+    getNextLetterHtml(){
+        return this.nextLetter.getCaretDiv();
     }
     getCaret(){
         return this.caret;
@@ -51,13 +51,17 @@ export class Letter {
             if(this.caret){
                 this.caretDiv.style.opacity = 0;
                 this.caret = false;
-                //this.caretPlacement.insertBefore(this.caretDiv.className,this.nextLetter.className);
+                this.caretPlacement.insertBefore(this.caretDiv,this.getNextLetterHtml());
             }else{
                 this.caretDiv.style.opacity = 1;
                 this.caret = true;
-                //this.caretPlacement.insertBefore(this.caretDiv.className,this.caretDiv.className);
+                console.log((this.getNextLetterHtml()))
+                this.caretPlacement.insertBefore(this.caretDiv,this.getNextLetterHtml());
             }
-        },560);
+        },1000);
+    }
+    getClassName(){
+        return this.caretDiv.className;
     }
     clearFlash(){
         clearInterval(this.caretIntervalId);

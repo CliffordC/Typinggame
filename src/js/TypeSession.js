@@ -76,7 +76,7 @@ export class TypeSession {
 
     keyPressIndicator(keyPress){
         console.log(keyPress," <-- That was typed");
-        if(Object.keys(letterDict).includes(keyPress)){
+        if(Object.keys(letterDict).includes(keyPress)){ //handle spacebar
             letterDict[keyPress].toggle('pressed');
         }
     };
@@ -91,6 +91,7 @@ export class TypeSession {
     
         if(kCode===32){
             this.keyPressIndicator('_');
+            this.keyPressed('_');
         }else if(97<=kCode<=122){
             this.keyPressIndicator(kPressed);
             this.keyPressed(kPressed);
@@ -98,7 +99,6 @@ export class TypeSession {
             return;
         }
     }
-
     displayStr(){
         console.log(this.getLetterList());
         for(let i=0;i<this.letterList.length;i++){
@@ -123,12 +123,13 @@ export class TypeSession {
         this.setLetterNeighbors(result);
         return result;
     }
-    setLetterNeighbors(){
-        for(let i=0;i<this.letterList.length;i++){
-            if(i+1>this.letterList.length){
+    setLetterNeighbors(letters){
+        this.letterList = letters;
+        for(let i=0;i<letters.length;i++){
+            if(i+1>letters.length){
                 //...do nothing
             }else{
-                this.letterList[i].setNextLetter(this.letterList[i+1]);
+                letters[i].setNextLetter(this.letterList[i+1]);
             }
         }
         console.log('Completed adding neighbors ',this.letterList);
@@ -138,7 +139,7 @@ export class TypeSession {
         return this.letterList;
     }
     keyPressed(value){
-        if(this.currentLetter.getLetter()===value){
+        if(this.currentLetter.getLetter()===value || value === ' '){
             this.currentLetter.reset();
             this.currentLetter = this.letterList[this.index];
             console.log('keyPressed,btn pressed: ',this.currentLetter.getLetter());
@@ -147,11 +148,6 @@ export class TypeSession {
             this.index++;
         }
     }
-    /*
-     * How to flash the current position in the typed
-     * word.
-     */
-
     
 }
 
