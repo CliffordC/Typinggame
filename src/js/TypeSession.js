@@ -64,19 +64,20 @@ export class TypeSession {
         this.currentLetter.flash();
     }
     activateListners(){
-        document.addEventListener("keyup",
+        document.addEventListener("keydown",
         (e)=> {
             this.keyPressHandler(e);
         });
         
-        document.addEventListener("keydown",
-        (e)=> {       
+        document.addEventListener("keyup",
+        (e)=> {      
+            e.preventDefault(); 
             this.keyPressIndicator(e.key);
         });
     }
 
     keyPressIndicator(keyPress){
-       // console.log(keyPress," <-- That was typed");
+        console.log(keyPress," <-- That was typed");
         if(Object.keys(letterDict).includes(keyPress) || keyPress==="_"){ //handle spacebar
             letterDict[keyPress].toggle('pressed');
         }
@@ -92,7 +93,7 @@ export class TypeSession {
     
         if(kCode===32){
             console.log('in space');
-            this.keyPressIndicator('_');
+            this.keyPressIndicator('_'); //BUG: 
             this.keyPressed('_');
         }else if(97<=kCode<=122){
             
