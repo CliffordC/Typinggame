@@ -153,6 +153,7 @@ main {
 }
 #mainStr {
     display:flex;
+    position:relative;
     justify-content:center;
 }
 .wf-Keyboard {

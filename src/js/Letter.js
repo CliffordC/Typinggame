@@ -2,11 +2,11 @@
  * Letter class;
  *
  */
-//const caretPlacement = document.querySelector('#mainStr');
 
 export class Letter {
 
-    constructor(value,placement){
+    constructor(value,placement,index){
+        this.nextLetter = null;
         this.caret = false;
         this.value = value;
         this.caretPlacement = placement;
@@ -14,12 +14,15 @@ export class Letter {
         this.caretDiv.style.display='inline';
         this.caretDiv.style.height = '1.8rem';
         this.caretDiv.style.width = '1rem';
+        this.caretDiv.style.position = 'relative';
         this.caretDiv.style.paddingBottom = '10px';
         //this.caretDiv.style.backgroundColor='black';
-        this.caretDiv.setAttribute('class','wf-Letter_Caret');
         this.txt =document.createTextNode(this.value);
         this.caretDiv.appendChild(this.txt);
         this.caretDiv.style.opacity=1;
+        this.stringPositionInLetterList = index;
+        this.caretDiv.setAttribute('class','wf-Letter_Caret_'+(String(index)));
+        this.caretIntervalId;
     }
 
     getLetter(){
@@ -31,6 +34,12 @@ export class Letter {
     setCaret(value){
         this.caret=value;
     }
+    setNextLetter(letter){
+        this.nextLetter = letter;
+    }
+    getNextLetter(){
+        return this.nextLetter;
+    }
     getCaret(){
         return this.caret;
     }
@@ -38,18 +47,24 @@ export class Letter {
         return this.caretDiv;
     }
     flash(){
-        setInterval(()=>{
+        this.caretIntervalId=setInterval(()=>{
             if(this.caret){
-                console.log(this.caretPlacement);
                 this.caretDiv.style.opacity = 0;
                 this.caret = false;
-                this.caretPlacement.prepend(this.caretDiv);
+                //this.caretPlacement.insertBefore(this.caretDiv.className,this.nextLetter.className);
             }else{
-                console.log('in flash else',this.caretDiv);
                 this.caretDiv.style.opacity = 1;
                 this.caret = true;
-                this.caretPlacement.prepend(this.caretDiv);
+                //this.caretPlacement.insertBefore(this.caretDiv.className,this.caretDiv.className);
             }
         },560);
+    }
+    clearFlash(){
+        clearInterval(this.caretIntervalId);
+    }
+    reset(){
+        this.clearFlash();
+        this.setCaret(false);
+        this.caretDiv.style.opacity=1
     }
 };
