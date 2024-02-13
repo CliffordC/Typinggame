@@ -64,19 +64,20 @@ export class TypeSession {
         this.currentLetter.flash();
     }
     activateListners(){
-        document.addEventListener("keydown",
-        (e)=> {
-                this.keyPressHandler(e);
-        });
         document.addEventListener("keyup",
-        (e)=> {       
+        (e)=> {
             this.keyPressHandler(e);
+        });
+        
+        document.addEventListener("keydown",
+        (e)=> {       
+            this.keyPressIndicator(e.key);
         });
     }
 
     keyPressIndicator(keyPress){
-        console.log(keyPress," <-- That was typed");
-        if(Object.keys(letterDict).includes(keyPress)){ //handle spacebar
+       // console.log(keyPress," <-- That was typed");
+        if(Object.keys(letterDict).includes(keyPress) || keyPress==="_"){ //handle spacebar
             letterDict[keyPress].toggle('pressed');
         }
     };
@@ -86,13 +87,15 @@ export class TypeSession {
     
         let kCode = keyPressEvent.keyCode;
         let kPressed = keyPressEvent.key.toLowerCase();
-    
+        
         if(keyPressEvent.repeat)return;
     
         if(kCode===32){
+            console.log('in space');
             this.keyPressIndicator('_');
             this.keyPressed('_');
         }else if(97<=kCode<=122){
+            
             this.keyPressIndicator(kPressed);
             this.keyPressed(kPressed);
         }else{
@@ -139,10 +142,11 @@ export class TypeSession {
         return this.letterList;
     }
     keyPressed(value){
+        console.log(value, ' value entered');
         if(this.currentLetter.getLetter()===value || value === ' '){
             this.currentLetter.reset();
             this.currentLetter = this.letterList[this.index];
-            console.log('keyPressed,btn pressed: ',this.currentLetter.getLetter());
+            
             this.currentLetter.setCaret(true);
             this.currentLetter.flash();
             this.index++;

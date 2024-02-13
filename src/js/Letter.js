@@ -55,7 +55,7 @@ export class Letter {
             }else{
                 this.caretDiv.style.opacity = 1;
                 this.caret = true;
-                console.log((this.getNextLetterHtml()))
+                //console.log((this.getNextLetterHtml()))
                 this.caretPlacement.insertBefore(this.caretDiv,this.getNextLetterHtml());
             }
         },1000);
