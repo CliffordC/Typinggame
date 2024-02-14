@@ -15,23 +15,25 @@
                 <div class="headerNav">
                     <nav class="wf-Nav">
                         <a class="wf-Nav_Link" href="#about">About</a>
-                        <a class="wf-Nav_Link" href="#src">SRC</a>
+                        <a class="wf-Nav_Link" href="https://github.com/CliffordC/Typinggame.git">SRC</a>
                     </nav>
                 <div>
             </div>    
         </header>
         <main>
             <section class="wf-Timer">
+                <div class="wf-Timer_Display">
+                    <div class="wf-Timer_Content">
+                        <span id="Timer_Content">10:11</span>
+                    </div>
+                </div>
             </section>
             <section class="wf-Meter">
             </section>
             <section class="wf-Library">
                 <div class="wf-Library_Content">
-                    <p>
-                        Lorem ipsum dolor sit amet, 
-                        consectetur adipiscing elit, sed do eiusmod tempor 
-                        incididunt ut labore et dolore magna aliqua. 
-                        Orci phasellus egestas tellus rutrum tellus pellentesque. 
+                    <div id="wf-Library_Caret"></div>
+                    <p id="mainStr">
                     </p>
                 </div>
             </section>
@@ -158,7 +160,7 @@
                     </div>             
             </section>        
         </main>
-        <script src="./src/script.js" >
+        <script type="module" src="./src/script.js" >
         </script>
     </body>
 </html>

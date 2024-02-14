@@ -5,7 +5,9 @@
     --meter-color:#434f45;
     --meter-color-edge:#333f35;
     --library-color:#f3fff5;
+    --library-text:#121914;
     --keyboard-bg-color:#232f25;
+    --key-pressed:#eea ;
     --key-bg-color:#020904;
     --meter-roundness:4px;
 }
@@ -27,8 +29,8 @@ a {
     text-decoration:none;
 }
 p {
-    font-size: 1rem;
-    font-weight: 400;
+    font-size: 1.8rem;
+    font-weight: 600;
 }
 [id] {
     scroll-margin-top:40px;
@@ -101,8 +103,19 @@ main {
     height:120px;
     border-radius:50%;
     background-color:var(--s-color);
+    color:var(--meter-color-edge);
     margin:auto;
+    justify-content:center;
+    align-items:center;
 }
+.wf-Timer_Display {
+
+}
+.wf-Timer_Content {
+    font-size:1.2rem;
+    font-weight:600;
+}
+
 .wf-Meter {
     margin-top:15px;
     width:100%;
@@ -127,7 +140,21 @@ main {
     display: flex;
     -webkit-line-clamp:3;
     -webkit-box-orient:vertical;
-    
+    color:var(--library-text);    
+    font-size:1.5rem;
+    font-weight:600;
+    text-align:center;
+}
+#wf-Library_Caret {
+    height:1.8rem;
+    width:.2rem;
+    opacity:0;
+    background-color:var(--bg-color);    
+}
+#mainStr {
+    display:flex;
+    position:relative;
+    justify-content:center;
 }
 .wf-Keyboard {
     height: 155px;
@@ -181,7 +208,9 @@ main {
     text-align:center;
     position:relative;
 }
-
+.pressed {
+    background-color:var(--key-pressed);
+}
 .keySpace {
     width:100%;
     font-size:1rem;
@@ -190,30 +219,6 @@ main {
     opacity:0;
     width:100%;
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 
