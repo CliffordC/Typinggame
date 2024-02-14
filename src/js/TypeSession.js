@@ -47,7 +47,7 @@ const letterDict = {
     ',':keymapKey[30].classList,
     '.':keymapKey[31].classList,
     '/':keymapKey[32].classList,
-    '_':keymapKey[33].classList
+    'Space':keymapKey[33].classList
 };
 export class TypeSession {
 
@@ -58,7 +58,7 @@ export class TypeSession {
         this.letterList = this.createLetterList();
         //this.setLetterNeighbors();
         this.currentLetter = this.letterList[0];
-        this.index = 0;
+        this.placeInStr = 1;
         this.currentLetter.setCaret(true);
         this.displayStr();
         this.currentLetter.flash();
@@ -72,13 +72,14 @@ export class TypeSession {
         document.addEventListener("keyup",
         (e)=> {      
             e.preventDefault(); 
+            console.log('key up for: ', e.key,typeof(e.code));
             this.keyPressIndicator(e.key);
         });
     }
 
     keyPressIndicator(keyPress){
         console.log(keyPress," <-- That was typed");
-        if(Object.keys(letterDict).includes(keyPress) || keyPress==="_"){ //handle spacebar
+        if(Object.keys(letterDict).includes(keyPress) || keyPress==="Space"){
             letterDict[keyPress].toggle('pressed');
         }
     };
@@ -86,15 +87,15 @@ export class TypeSession {
     keyPressHandler(keyPressEvent){
         keyPressEvent.preventDefault();
     
-        let kCode = keyPressEvent.keyCode;
+        let kCode = keyPressEvent.code;
         let kPressed = keyPressEvent.key.toLowerCase();
         
         if(keyPressEvent.repeat)return;
     
         if(kCode===32){
-            console.log('in space');
-            this.keyPressIndicator('_'); //BUG: 
-            this.keyPressed('_');
+            //console.log('in space');
+            this.keyPressIndicator('Space'); //BUG: 
+            this.keyPressed('Space');
         }else if(97<=kCode<=122){
             
             this.keyPressIndicator(kPressed);
@@ -104,9 +105,8 @@ export class TypeSession {
         }
     }
     displayStr(){
-        console.log(this.getLetterList());
+        //console.log(this.getLetterList());
         for(let i=0;i<this.letterList.length;i++){
-            console.log(this.letterList[i]);
             this.libraryContent.appendChild(this.letterList[i].getCaretDiv());
         }
     }
@@ -130,8 +130,9 @@ export class TypeSession {
     setLetterNeighbors(letters){
         this.letterList = letters;
         for(let i=0;i<letters.length;i++){
-            if(i+1>letters.length){
-                //...do nothing
+            if(i===letters.length-1){
+                //TODO: sets the neighbor of the last chr to itself
+                letters[i].setNextLetter(letters[i]);
             }else{
                 letters[i].setNextLetter(this.letterList[i+1]);
             }
@@ -143,14 +144,20 @@ export class TypeSession {
         return this.letterList;
     }
     keyPressed(value){
-        console.log(value, ' value entered');
-        if(this.currentLetter.getLetter()===value || value === ' '){
+        //console.log(this.currentLetter.getLetter(), ' value entered');
+        if(this.currentLetter.getLetter()===value && this.currentLetter.getIndex()<this.letterList.length-1){
+            //console.log('value pressed was: ', value);
+            //let temp = this.currentLetter;
             this.currentLetter.reset();
-            this.currentLetter = this.letterList[this.index];
+            this.currentLetter = this.letterList[this.placeInStr];
             
             this.currentLetter.setCaret(true);
             this.currentLetter.flash();
-            this.index++;
+            this.placeInStr++;
+        }else if(this.currentLetter.getIndex()===this.letterList.length-1){
+            //Done condition for the last chr typed in the string 
+            console.log('work completed');
+            alert('congrats!');
         }
     }
     

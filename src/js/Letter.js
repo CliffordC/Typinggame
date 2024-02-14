@@ -9,14 +9,16 @@ export class Letter {
         this.nextLetter = null;
         this.caret = false;
         this.value = value;
+        this.index = index;
         this.caretPlacement = placement;
+        //Caret and letter decorations
         this.caretDiv = document.createElement('div');
         this.caretDiv.style.display='inline';
         this.caretDiv.style.height = '1.8rem';
         this.caretDiv.style.width = '1rem';
         this.caretDiv.style.position = 'relative';
         this.caretDiv.style.paddingBottom = '10px';
-        //this.caretDiv.style.backgroundColor='black';
+        this.caretDiv.style.backgroundColor='black';
         this.txt =document.createTextNode(this.value);
         this.caretDiv.appendChild(this.txt);
         this.caretDiv.style.opacity=1;
@@ -27,6 +29,9 @@ export class Letter {
 
     getLetter(){
         return this.value;
+    }
+    getIndex(){
+        return this.index;
     }
     setLetter(value){
         this.value = value;
@@ -58,7 +63,7 @@ export class Letter {
                 //console.log((this.getNextLetterHtml()))
                 this.caretPlacement.insertBefore(this.caretDiv,this.getNextLetterHtml());
             }
-        },1000);
+        },540);
     }
     getClassName(){
         return this.caretDiv.className;
