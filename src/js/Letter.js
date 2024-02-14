@@ -18,7 +18,7 @@ export class Letter {
         this.caretDiv.style.width = '1rem';
         this.caretDiv.style.position = 'relative';
         this.caretDiv.style.paddingBottom = '10px';
-        this.caretDiv.style.backgroundColor='black';
+        //this.caretDiv.style.backgroundColor='black';
         this.txt =document.createTextNode(this.value);
         this.caretDiv.appendChild(this.txt);
         this.caretDiv.style.opacity=1;

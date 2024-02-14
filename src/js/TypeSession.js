@@ -56,7 +56,6 @@ export class TypeSession {
         this.libraryContent = libraryContent;
         this.dictStr = dictionary[0]
         this.letterList = this.createLetterList();
-        //this.setLetterNeighbors();
         this.currentLetter = this.letterList[0];
         this.placeInStr = 1;
         this.currentLetter.setCaret(true);
@@ -114,7 +113,7 @@ export class TypeSession {
         this.libraryContent.innerText = newText;
     }
 
-    getLetter(){
+    getCurrentLetter(){
         return this.currentLetter;
     }
     createLetterList(){
@@ -131,7 +130,7 @@ export class TypeSession {
         this.letterList = letters;
         for(let i=0;i<letters.length;i++){
             if(i===letters.length-1){
-                //TODO: sets the neighbor of the last chr to itself
+                //sets the neighbor of the last chr to itself
                 letters[i].setNextLetter(letters[i]);
             }else{
                 letters[i].setNextLetter(this.letterList[i+1]);
