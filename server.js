@@ -16,27 +16,17 @@ const app = express();
 const server = createServer(app);
 const io = new Server(server);
 
-app.use( express.static(__dirname + '/src'));
+app.use(express.static('src'));
 
-app.get('/', (req, res) => {
-    console.log('sent index.html to the client.')
-    res.sendFile(join(__dirname, 'index.html'));
+var currentUsers = 0;
+io.on('connection', (socket) => {
+    currentUsers++;
+    console.log('A user connected. Number of users is now: ', currentUsers);
+
+    socket.on('disconnect', () => {
+        console.log('user disconnected');
+      });
 });
-
-app.get("/src/style.css", (req, res) => {
-    console.log('sent css to the client.') 
-    res.sendFile(join(__dirname, '/src/style.css'));
-});
-
-app.get("/src/script.js", (req, res) => {
-    console.log('sent js to the client.')
-    res.sendFile(join(__dirname, '/src/script.js'));
-});
-// io.on('connection', (socket) => {
-//   socket.on('send name', (user) => {
-//     io.emit('send name', user);
-//   });
-
 //   socket.on('chat message', (msg) => {
 //     io.emit('chat message', msg);
 //   });

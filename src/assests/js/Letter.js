@@ -76,7 +76,7 @@ export class Letter {
     }
     reset(){
         if(this.value === ' '){
-            this.caretDiv.style.backgroundColor='white';
+            this.caretDiv.style.backgroundColor='inherit';
         }
         this.clearFlash();
         this.setCaret(false);

@@ -3,9 +3,37 @@
  * session. The class should display the words in the 
  * library content section of the site as well.
  */
-import { dictionary } from '../Dictionary/words.js';
+import { dictionary } from './Dictionary/words.js';
 import { Letter } from './Letter.js';
 
+/*
+ * Timer display.
+ */
+let  timer = document.querySelector("#Timer_Content");
+
+/*
+ * @param InitialTime in seconds
+ * @output void
+ */
+const timeSub = (InitialTime) => {
+    let time = InitialTime;
+    let cntTerminator = 0;
+
+    setInterval(
+        ()=>{
+            time--;
+        
+            if(time>=cntTerminator){    
+                timer.innerText = time;
+            }else{
+                return;
+            }
+        }
+     ,1000);
+}
+/*
+ * Displays the main string to type out a word.
+ */
 const libraryContent = document.querySelector('#mainStr');
 /*
  * Keyboard press actions
