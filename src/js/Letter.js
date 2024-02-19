@@ -18,7 +18,7 @@ export class Letter {
         this.caretDiv.style.width = '1rem';
         this.caretDiv.style.position = 'relative';
         this.caretDiv.style.paddingBottom = '10px';
-        //this.caretDiv.style.backgroundColor='black';
+
         this.txt =document.createTextNode(this.value);
         this.caretDiv.appendChild(this.txt);
         this.caretDiv.style.opacity=1;
@@ -52,7 +52,11 @@ export class Letter {
         return this.caretDiv;
     }
     flash(){
-        this.caretIntervalId=setInterval(()=>{
+        this.caretIntervalId = setInterval(()=>{
+            if(this.value === ' '){
+                this.caretDiv.style.backgroundColor='black';
+            }
+
             if(this.caret){
                 this.caretDiv.style.opacity = 0;
                 this.caret = false;
@@ -60,7 +64,6 @@ export class Letter {
             }else{
                 this.caretDiv.style.opacity = 1;
                 this.caret = true;
-                //console.log((this.getNextLetterHtml()))
                 this.caretPlacement.insertBefore(this.caretDiv,this.getNextLetterHtml());
             }
         },540);
@@ -72,6 +75,9 @@ export class Letter {
         clearInterval(this.caretIntervalId);
     }
     reset(){
+        if(this.value === ' '){
+            this.caretDiv.style.backgroundColor='white';
+        }
         this.clearFlash();
         this.setCaret(false);
         this.caretDiv.style.opacity=1
