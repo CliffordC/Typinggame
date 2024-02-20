@@ -97,7 +97,29 @@ main {
         background-color:var(--nav-bg-h-color);
         }
 }
-.wf-Timer {
+/*
+ * keyFrame bounce code obtained from https://codepen.io/halink0803/pen/qdVXqm
+ * on 2/19/24.
+ */
+@keyframes bounce {
+	0%, 100%, 20%, 50%, 80% {
+		-webkit-transform: translateY(0);
+		-ms-transform:     translateY(0);
+		transform:         translateY(0)
+	}
+	40% {
+		-webkit-transform: translateY(-30px);
+		-ms-transform:     translateY(-30px);
+		transform:         translateY(-30px)
+	}
+	60% {
+		-webkit-transform: translateY(-15px);
+		-ms-transform:     translateY(-15px);
+		transform:         translateY(-15px)
+	}
+}
+
+.wf-Room_Time {
     display:flex;
     width:120px;
     height:120px;
@@ -107,13 +129,15 @@ main {
     margin:auto;
     justify-content:center;
     align-items:center;
+    
 }
-.wf-Timer_Display {
+.wf-Room_Time_Display {
 
 }
-.wf-Timer_Content {
+.wf-Room_Time_Content {
     font-size:1.2rem;
     font-weight:600;
+    cursor: pointer;
 }
 
 .wf-Meter {

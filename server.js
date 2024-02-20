@@ -14,25 +14,42 @@ const { Server } = require('socket.io');
 
 const app = express();
 const server = createServer(app);
-const io = new Server(server);
+const io = new Server(server, {
+    connectionStateRecovery: {}
+});
 
 app.use(express.static('src'));
 
-var currentUsers = 0;
-io.on('connection', (socket) => {
-    currentUsers++;
-    console.log('A user connected. Number of users is now: ', currentUsers);
+const rooms = [
+    {first:'first come', typers: 0},
+    {second:'extras', typers: 0}
+];
 
+io.on('connection', (socket) => {
+
+    if(rooms[0].typers<2){
+        console.log('Currents typers in room #First Come: ',rooms[0].typers);
+        socket.emit('join 1v1 request', true);
+        //Adds user to the one v. one room.
+        socket.join(rooms[0].first);
+    }else{
+        console.log('Currents typers in room #Extras: ',rooms[1].typers);
+        socket.emit( 'join 1v1 request', false);
+        socket.join(rooms[1].second);
+    }
+
+    socket.on('One on One challenger', (num)=> {
+        console.log('a challenger has appeared');
+        rooms[0].typers<2?rooms[0].typers+=num:rooms[1].typers +=num;
+        socket.emit( 'start game',15,true );
+    });
+    
     socket.on('disconnect', () => {
         console.log('user disconnected');
       });
 });
-//   socket.on('chat message', (msg) => {
-//     io.emit('chat message', msg);
-//   });
-// });
 
-const port = process.env.PORT || 4000; //Haven't bothered creating a environment variable for the port.
+const port = process.env.PORT || 4000; 
 server.listen(port, () => {
-  console.log('server running at http://localhost:4000');
+  console.log(`server running at http://localhost:${port}`);
 });
