@@ -3,111 +3,122 @@
  * session. The class should display the words in the 
  * library content section of the site as well.
  */
-import { dictionary } from './Dictionary/words.js';
-import { Letter } from './Letter.js';
+import {dictionary} from './Dictionary/words.js';
+import {Letter} from './Letter.js'
 
-/*
- * Timer display.
- */
-let  timer = document.querySelector("#Timer_Content");
-
-/*
- * @param InitialTime in seconds
- * @output void
- */
-const timeSub = (InitialTime) => {
-    let time = InitialTime;
-    let cntTerminator = 0;
-
-    setInterval(
-        ()=>{
-            time--;
-        
-            if(time>=cntTerminator){    
-                timer.innerText = time;
-            }else{
-                return;
-            }
-        }
-     ,1000);
-}
-/*
- * Displays the main string to type out a word.
- */
-const libraryContent = document.querySelector('#mainStr');
-/*
- * Keyboard press actions
- */
-const keymapKey = document.querySelectorAll(".keymapKey");
-
-//Collection of keys and classlist to manipulate
-const letterDict = {
-    'q':keymapKey[0].classList,
-    'w':keymapKey[1].classList,
-    'e':keymapKey[2].classList,
-    'r':keymapKey[3].classList,
-    't':keymapKey[4].classList,
-    'y':keymapKey[5].classList,
-    'u':keymapKey[6].classList,
-    'i':keymapKey[7].classList,
-    'o':keymapKey[8].classList,
-    'p':keymapKey[9].classList,
-    '[':keymapKey[10].classList,
-    ']':keymapKey[11].classList,
-    'a':keymapKey[12].classList,
-    's':keymapKey[13].classList,
-    'd':keymapKey[14].classList,
-    'f':keymapKey[15].classList,
-    'g':keymapKey[16].classList,
-    'h':keymapKey[17].classList,
-    'j':keymapKey[18].classList,
-    'k':keymapKey[19].classList,
-    'l':keymapKey[20].classList,
-    ';':keymapKey[21].classList,
-    "'":keymapKey[22].classList,
-    'z':keymapKey[23].classList,
-    'x':keymapKey[24].classList,
-    'c':keymapKey[25].classList,
-    'v':keymapKey[26].classList,
-    'b':keymapKey[27].classList,
-    'n':keymapKey[28].classList,
-    'm':keymapKey[29].classList,
-    ',':keymapKey[30].classList,
-    '.':keymapKey[31].classList,
-    '/':keymapKey[32].classList,
-    'Space':keymapKey[33].classList
-};
 export class TypeSession {
 
     constructor(){
-        this.activateListners()
-        this.libraryContent = libraryContent;
-        this.dictStr = dictionary[0]
+        /*
+        * @param InitialTime in seconds
+        * @output void
+        */
+        this.timeSub = (InitialTime) => {
+            //Subtracts a second from the input till 0
+            let time = InitialTime;
+            let cntTerminator = 0;
+
+            setInterval(
+                ()=>{
+                    time--;
+                
+                    if(time>=cntTerminator){    
+                        timer.innerText = time;
+                    }else{
+                        return;
+                    }
+                }
+            ,1000);
+        };
+ 
+        this.timer = document.querySelector("#Timer_Content");
+        this.roomJoin = document.getElementById("Room_Time_Content");
+        
+        this.libraryContent = document.querySelector('#mainStr');
+        /*
+        * Keyboard press actions
+        */
+        this.keymapKey = document.querySelectorAll(".keymapKey");
+
+        //Collection of keys and classlist to manipulate
+        this.letterDict = {
+            'q':this.keymapKey[0].classList,
+            'w':this.keymapKey[1].classList,
+            'e':this.keymapKey[2].classList,
+            'r':this.keymapKey[3].classList,
+            't':this.keymapKey[4].classList,
+            'y':this.keymapKey[5].classList,
+            'u':this.keymapKey[6].classList,
+            'i':this.keymapKey[7].classList,
+            'o':this.keymapKey[8].classList,
+            'p':this.keymapKey[9].classList,
+            '[':this.keymapKey[10].classList,
+            ']':this.keymapKey[11].classList,
+            'a':this.keymapKey[12].classList,
+            's':this.keymapKey[13].classList,
+            'd':this.keymapKey[14].classList,
+            'f':this.keymapKey[15].classList,
+            'g':this.keymapKey[16].classList,
+            'h':this.keymapKey[17].classList,
+            'j':this.keymapKey[18].classList,
+            'k':this.keymapKey[19].classList,
+            'l':this.keymapKey[20].classList,
+            ';':this.keymapKey[21].classList,
+            "'":this.keymapKey[22].classList,
+            'z':this.keymapKey[23].classList,
+            'x':this.keymapKey[24].classList,
+            'c':this.keymapKey[25].classList,
+            'v':this.keymapKey[26].classList,
+            'b':this.keymapKey[27].classList,
+            'n':this.keymapKey[28].classList,
+            'm':this.keymapKey[29].classList,
+            ',':this.keymapKey[30].classList,
+            '.':this.keymapKey[31].classList,
+            '/':this.keymapKey[32].classList,
+            'Space':this.keymapKey[33].classList
+        };
+        this.activateListners();
+        // this.dictStr = [];
+        // this.letterList = this.createLetterList();
+        // this.currentLetter = this.letterList[0];
+        this.placeInStr = 1;
+        // this.currentLetter.setCaret(true);
+        // this.displayStr();
+        // this.currentLetter.flash();
+        this.refreshStr(0)
+        this.gameTime;
+        this.startTime;
+        this.endTime;
+    }
+    refreshStr(num){
+        let randStr = num%5;
+
+        this.dictStr = '';
+        this.dictStr = dictionary[randStr];
         this.letterList = this.createLetterList();
         this.currentLetter = this.letterList[0];
         this.placeInStr = 1;
         this.currentLetter.setCaret(true);
         this.displayStr();
         this.currentLetter.flash();
-    }
+    };
     activateListners(){
-        document.addEventListener("keydown",
-        (e)=> {
-            this.keyPressHandler(e);
-        });
-        
-        document.addEventListener("keyup",
-        (e)=> {      
-            e.preventDefault(); 
-            console.log('key up for: ', e.key,typeof(e.code));
-            this.keyPressIndicator(e.key);
-        });
-    }
-
+            document.addEventListener("keydown",
+            (e)=> {
+                this.keyPressHandler(e);
+            });
+            
+            document.addEventListener("keyup",
+            (e)=> {      
+                e.preventDefault(); 
+                console.log('key up for: ', e.key,typeof(e.code));
+                this.keyPressIndicator(e.key);
+            });
+    };
     keyPressIndicator(keyPress){
         console.log(keyPress," <-- That was typed");
-        if(Object.keys(letterDict).includes(keyPress) || keyPress==="Space"){
-            letterDict[keyPress].toggle('pressed');
+        if(Object.keys(this.letterDict).includes(keyPress) || keyPress==="Space"){
+            this.letterDict[keyPress].toggle('pressed');
         }
     };
     
@@ -132,7 +143,6 @@ export class TypeSession {
         }
     }
     displayStr(){
-        //console.log(this.getLetterList());
         for(let i=0;i<this.letterList.length;i++){
             this.libraryContent.appendChild(this.letterList[i].getCaretDiv());
         }
@@ -145,7 +155,9 @@ export class TypeSession {
         return this.currentLetter;
     }
     createLetterList(){
+        //let temp = this.dictStr;
         let separatedLetterList = this.dictStr.split('');
+        //this.dictStr = temp;
         let result = [];
 
         for(let i=0;i<separatedLetterList.length;i++){
@@ -173,6 +185,7 @@ export class TypeSession {
     keyPressed(value){
         //console.log(this.currentLetter.getLetter(), ' value entered');
         if(this.currentLetter.getLetter()===value && this.currentLetter.getIndex()<this.letterList.length-1){
+            if(this.currentLetter.getIndex()===0){this.startGame=new Date();}
             //console.log('value pressed was: ', value);
             //let temp = this.currentLetter;
             this.currentLetter.reset();
@@ -181,10 +194,14 @@ export class TypeSession {
             this.currentLetter.setCaret(true);
             this.currentLetter.flash();
             this.placeInStr++;
-        }else if(this.currentLetter.getIndex()===this.letterList.length-1){
+        }else if(this.currentLetter.getIndex()===this.letterList.length-1){ //Finished typing
+            this.endTime=new Date();
             //Done condition for the last chr typed in the string 
-            console.log('work completed');
-            alert('congrats!');
+            this.gameTime = (this.endTime.getTime()-this.startGame.getTime())/1000 + 's';
+            this.roomJoin.innerText = this.gameTime;
+            console.log(this.gameTime)
+
+            this.refreshStr(Math.floor(Math.random() * 5))
         }
     }
     

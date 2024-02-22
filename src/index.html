@@ -167,7 +167,11 @@
             const roomJoin = document.getElementById("Room_Time_Content");
             const socket = io();
 
-            const inOnevOne = false;
+            /*
+             * This variable will be in charge of checking whether 
+             * the game between two players has commenced. 
+             */
+            
 
             const roomOneOnOneController = function (e){
                 e.preventDefault();
@@ -188,8 +192,10 @@
                     roomJoin.innerText = "Join Waiting Room";
                 }                
             });
-            socket.on('start game', (time,bool) => {
+            socket.on('start game', (time,bool,gameSess) => {
                 roomJoin.innerText = 15;
+                
+                const game  = gameSess;
                 //TODO: This could be a good place to create a TypeSession for users to type on
             })
 

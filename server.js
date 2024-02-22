@@ -7,10 +7,11 @@
 /*
  * Using the common js syntax to feel like real old school node js developer.
  */
-const express = require('express');
-const { createServer } = require('http');
-const { join } = require('node:path');
-const { Server } = require('socket.io');
+import express from 'express';
+import {createServer} from 'node:http';
+import { join } from 'node:path'
+import { Server } from 'socket.io';
+
 
 const app = express();
 const server = createServer(app);
@@ -32,16 +33,18 @@ io.on('connection', (socket) => {
         socket.emit('join 1v1 request', true);
         //Adds user to the one v. one room.
         socket.join(rooms[0].first);
-    }else{
-        console.log('Currents typers in room #Extras: ',rooms[1].typers);
-        socket.emit( 'join 1v1 request', false);
-        socket.join(rooms[1].second);
     }
+    
+    // else{
+    //     console.log('Currents typers in room #Extras: ',rooms[1].typers);
+    //     socket.emit( 'join 1v1 request', false);
+    //     socket.join(rooms[1].second);
+    // }
 
     socket.on('One on One challenger', (num)=> {
         console.log('a challenger has appeared');
-        rooms[0].typers<2?rooms[0].typers+=num:rooms[1].typers +=num;
-        socket.emit( 'start game',15,true );
+        rooms[0].typers<2?rooms[0].typers+=num:rooms[1].typers+=num;
+        socket.emit( 'start game',15);
     });
     
     socket.on('disconnect', () => {
