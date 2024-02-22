@@ -78,13 +78,7 @@ export class TypeSession {
             'Space':this.keymapKey[33].classList
         };
         this.activateListners();
-        // this.dictStr = [];
-        // this.letterList = this.createLetterList();
-        // this.currentLetter = this.letterList[0];
         this.placeInStr = 1;
-        // this.currentLetter.setCaret(true);
-        // this.displayStr();
-        // this.currentLetter.flash();
         this.refreshStr(0)
         this.gameTime;
         this.startTime;
@@ -111,7 +105,6 @@ export class TypeSession {
             document.addEventListener("keyup",
             (e)=> {      
                 e.preventDefault(); 
-                console.log('key up for: ', e.key,typeof(e.code));
                 this.keyPressIndicator(e.key);
             });
     };
@@ -131,11 +124,9 @@ export class TypeSession {
         if(keyPressEvent.repeat)return;
     
         if(kCode===32){
-            //console.log('in space');
             this.keyPressIndicator('Space'); //BUG: 
             this.keyPressed('Space');
         }else if(97<=kCode<=122){
-            
             this.keyPressIndicator(kPressed);
             this.keyPressed(kPressed);
         }else{
@@ -154,10 +145,8 @@ export class TypeSession {
     getCurrentLetter(){
         return this.currentLetter;
     }
-    createLetterList(){
-        //let temp = this.dictStr;
+    createLetterList(){ 
         let separatedLetterList = this.dictStr.split('');
-        //this.dictStr = temp;
         let result = [];
 
         for(let i=0;i<separatedLetterList.length;i++){
@@ -200,6 +189,10 @@ export class TypeSession {
             this.gameTime = (this.endTime.getTime()-this.startGame.getTime())/1000 + 's';
             this.roomJoin.innerText = this.gameTime;
             console.log(this.gameTime)
+            //Work on removing html elements on reset. 
+            for(let i=0;i<this.letterList.length;i++){
+                this.libraryContent.removeLastChild;
+            }
 
             this.refreshStr(Math.floor(Math.random() * 5))
         }
