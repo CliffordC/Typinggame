@@ -43,7 +43,11 @@ export class Letter {
         this.nextLetter = letter;
     }
     getNextLetterHtml(){
-        return this.nextLetter.getCaretDiv();
+        if(!this.nextLetter){
+            return this.getCaretDiv()
+        }else{
+            return this.nextLetter.getCaretDiv();
+        }
     }
     getCaret(){
         return this.caret;

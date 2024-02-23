@@ -109,7 +109,6 @@ export class TypeSession {
             });
     };
     keyPressIndicator(keyPress){
-        console.log(keyPress," <-- That was typed");
         if(Object.keys(this.letterDict).includes(keyPress) || keyPress==="Space"){
             this.letterDict[keyPress].toggle('pressed');
         }
@@ -165,7 +164,6 @@ export class TypeSession {
                 letters[i].setNextLetter(this.letterList[i+1]);
             }
         }
-        console.log('Completed adding neighbors ',this.letterList);
     }
 
     getLetterList(){
@@ -188,12 +186,12 @@ export class TypeSession {
             //Done condition for the last chr typed in the string 
             this.gameTime = (this.endTime.getTime()-this.startGame.getTime())/1000 + 's';
             this.roomJoin.innerText = this.gameTime;
-            console.log(this.gameTime)
+            //console.log(this.gameTime)
             //Work on removing html elements on reset. 
-            for(let i=0;i<this.letterList.length;i++){
-                this.libraryContent.removeLastChild;
+            for(let i = this.libraryContent.children.length-1; i >= 0;i--){
+                console.log('Library Child element',typeof(this.libraryContent.children[i]))
+                this.libraryContent.children[i].remove();
             }
-
             this.refreshStr(Math.floor(Math.random() * 5))
         }
     }
