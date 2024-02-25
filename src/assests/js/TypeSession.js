@@ -172,7 +172,6 @@ export class TypeSession {
     keyPressed(value){
         if(this.currentLetter.getLetter()===value && this.currentLetter.getIndex()<this.letterList.length-1){
             if(this.currentLetter.getIndex()===0){this.startGame=new Date();}
-            his.currentLetter;
             this.currentLetter.reset();
             this.currentLetter = this.letterList[this.placeInStr];
             
