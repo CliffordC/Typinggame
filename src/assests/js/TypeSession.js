@@ -75,7 +75,8 @@ export class TypeSession {
             ',':this.keymapKey[30].classList,
             '.':this.keymapKey[31].classList,
             '/':this.keymapKey[32].classList,
-            'Space':this.keymapKey[33].classList
+            'Space':this.keymapKey[33].classList,
+            'enter': 'String Complete!',
         };
         this.activateListners();
         this.placeInStr = 1;
@@ -104,13 +105,20 @@ export class TypeSession {
             
             document.addEventListener("keyup",
             (e)=> {      
-                e.preventDefault(); 
-                this.keyPressIndicator(e.key);
+                e.preventDefault();
+                if(e.code==='Space'){
+                    this.keyPressIndicator(e.code);
+                }else{ 
+                    this.keyPressIndicator(e.key);
+                }
             });
     };
     keyPressIndicator(keyPress){
-        if(Object.keys(this.letterDict).includes(keyPress) || keyPress==="Space"){
+        if(keyPress!='enter' || keyPress === 'space'){
+            if(keyPress === 'space'){keyPress = "Space"}
             this.letterDict[keyPress].toggle('pressed');
+        }else if(keyPress === 'enter'){
+            //Do nothing for now...
         }
     };
     
@@ -119,11 +127,13 @@ export class TypeSession {
     
         let kCode = keyPressEvent.code;
         let kPressed = keyPressEvent.key.toLowerCase();
-        
+                
+        //console.log('key pressed: ', kCode);
         if(keyPressEvent.repeat)return;
     
-        if(kCode===32){
-            this.keyPressIndicator('Space'); //BUG: 
+        if(kCode=== 'Space'){
+            //console.log('pressed Space: ', kCode);
+            this.keyPressIndicator('Space'); 
             this.keyPressed('Space');
         }else if(97<=kCode<=122){
             this.keyPressIndicator(kPressed);
@@ -170,7 +180,11 @@ export class TypeSession {
         return this.letterList;
     }
     keyPressed(value){
-        if(this.currentLetter.getLetter()===value && this.currentLetter.getIndex()<this.letterList.length-1){
+        if(value==='Space'){
+            value = ' ';
+        }
+        
+        if((this.currentLetter.getLetter()===value  )&& this.currentLetter.getIndex()<this.letterList.length-1){
             if(this.currentLetter.getIndex()===0){this.startGame=new Date();}
             this.currentLetter.reset();
             this.currentLetter = this.letterList[this.placeInStr];

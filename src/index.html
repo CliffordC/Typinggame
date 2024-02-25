@@ -167,6 +167,20 @@
             const roomJoin = document.getElementById("Room_Time_Content");
             const socket = io();
 
+            document.addEventListener('keyup', 
+                (e)=>{
+                    e.preventDefault();
+                    let btn = e.key.toLowerCase();
+                    if(btn==='enter'){
+                        setTimeout(
+                                ()=>{
+                                let time = parseFloat(roomJoin.innerText,);
+                                socket.emit("send time!",(time));
+                            }
+                        ,100);
+                    }
+                }
+            );
             /*
              * This variable will be in charge of checking whether 
              * the game between two players has commenced. 
@@ -176,10 +190,10 @@
             const roomOneOnOneController = function (e){
                 e.preventDefault();
                 if(isOnevOne){
-                    socket.emit('One on One challenger',1)
+                    socket.emit('One on One challenger',1);
                 }
             }
-            roomJoin.addEventListener('click', roomOneOnOneController)
+            roomJoin.addEventListener('click', roomOneOnOneController);
 
             socket.on('join 1v1 request', (bool) => {
                 if(bool){
@@ -187,11 +201,14 @@
                     roomJoin.innerText = "Join 1v1?";
 
                 }else{
-                    isOnevOne=bool
+                    isOnevOne=bool;
                     roomJoin.innerText = "Join Waiting Room";
                 }                
             });
             socket.on('start game', (time,bool) => {
+                roomJoin.innerText = 15;
+            })
+            socket.on('received winner', (time,bool) => {
                 roomJoin.innerText = 15;
             })
 
