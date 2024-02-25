@@ -78,7 +78,6 @@ export class Letter {
                         when I've got less fun things to do teehee.
                         //console.log(err)
                         */
-                       console.log(err)
                 }
                 }else{
                 this.caretDiv.style.opacity = 1;
