@@ -170,11 +170,9 @@ export class TypeSession {
         return this.letterList;
     }
     keyPressed(value){
-        //console.log(this.currentLetter.getLetter(), ' value entered');
         if(this.currentLetter.getLetter()===value && this.currentLetter.getIndex()<this.letterList.length-1){
             if(this.currentLetter.getIndex()===0){this.startGame=new Date();}
-            //console.log('value pressed was: ', value);
-            //let temp = this.currentLetter;
+            his.currentLetter;
             this.currentLetter.reset();
             this.currentLetter = this.letterList[this.placeInStr];
             
@@ -183,16 +181,17 @@ export class TypeSession {
             this.placeInStr++;
         }else if(this.currentLetter.getIndex()===this.letterList.length-1){ //Finished typing
             this.endTime=new Date();
+
             //Done condition for the last chr typed in the string 
             this.gameTime = (this.endTime.getTime()-this.startGame.getTime())/1000 + 's';
             this.roomJoin.innerText = this.gameTime;
-            //console.log(this.gameTime)
-            //Work on removing html elements on reset. 
+            this.libraryContent.replaceChildren();
+
             for(let i = this.libraryContent.children.length-1; i >= 0;i--){
-                console.log('Library Child element',typeof(this.libraryContent.children[i]))
                 this.libraryContent.children[i].remove();
             }
-            this.refreshStr(Math.floor(Math.random() * 5))
+
+            this.refreshStr(Math.floor(Math.random() * 5));
         }
     }
     

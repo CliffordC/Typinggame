@@ -2,7 +2,6 @@
  * Letter class;
  *
  */
-
 export class Letter {
 
     constructor(value,placement,index){
@@ -55,7 +54,7 @@ export class Letter {
     getCaretDiv(){
         return this.caretDiv;
     }
-    flash(){
+    async flash(){
         this.caretIntervalId = setInterval(()=>{
             if(this.value === ' '){
                 this.caretDiv.style.backgroundColor='black';
@@ -64,11 +63,31 @@ export class Letter {
             if(this.caret){
                 this.caretDiv.style.opacity = 0;
                 this.caret = false;
-                this.caretPlacement.insertBefore(this.caretDiv,this.getNextLetterHtml());
-            }else{
+
+                try{
+                    this.caretPlacement.insertBefore(this.caretDiv,this.getNextLetterHtml());
+                }catch(err){
+                  /*
+                        The following is happening in the background up a word reset:
+                        DOMException: Failed to execute 'insertBefore' on 'Node': 
+                        The node before which the new node is to be inserted is not a child of this node.
+                        
+                        After clearing the dom element, #mainStr, to insert a new str,
+                        I think so calls create an element and then manipulate that element
+                        are getting mixed up causing this resource access issue. Will ivestigate
+                        when I've got less fun things to do teehee.
+                        //console.log(err)
+                        */
+                       console.log(err)
+                }
+                }else{
                 this.caretDiv.style.opacity = 1;
                 this.caret = true;
-                this.caretPlacement.insertBefore(this.caretDiv,this.getNextLetterHtml());
+               try{
+                    this.caretPlacement.insertBefore(this.caretDiv,this.getNextLetterHtml());
+                }catch(err){
+                    //...
+                }
             }
         },540);
     }
