@@ -166,6 +166,7 @@
         <script>
             const roomJoin = document.getElementById("Room_Time_Content");
             const socket = io();
+            const isInOneVOne = false;
 
             document.addEventListener('keyup', 
                 (e)=>{
@@ -189,7 +190,7 @@
 
             const roomOneOnOneController = function (e){
                 e.preventDefault();
-                if(isOnevOne){
+                if(!isOnevOne){
                     socket.emit('One on One challenger',1);
                 }
             }
@@ -202,14 +203,14 @@
 
                 }else{
                     isOnevOne=bool;
-                    roomJoin.innerText = "Join Waiting Room";
+                    roomJoin.innerText = "w-List";
                 }                
             });
             socket.on('start game', (time,bool) => {
-                roomJoin.innerText = 15;
+                //roomJoin.innerText = 15;
             })
             socket.on('received winner', (time,bool) => {
-                roomJoin.innerText = 15;
+
             })
 
         </script>

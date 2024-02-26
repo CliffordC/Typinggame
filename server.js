@@ -22,65 +22,72 @@ const io = new Server(server, {
 app.use(express.static('src'));
 
 const rooms = [
-    {first:'first come', typers: 0,t1:{id:'f',time:0},t2:{id:'f',time:0}},
+    {first:'first come', typers: 0,t1:{id:'f',socketId:'x',time:0},t2:{id:'f',time:0}},
     {second:'extras', typers: 0}
 ];
 
 io.on('connection', (socket) => {
 
     if(rooms[0].typers<2){
-        console.log('Currents typers in room #First Come: ',rooms[0].typers);
         socket.emit('join 1v1 request', true);
         //Adds user to the one v. one room.
         if(rooms[0].t1.id.length===1){
-            rooms[0].t1.id=socket.id;
-            console.log(rooms[0].t1.id, ' -> t1 socket id');
+            rooms[0].t1.socketId=socket.id;
+            rooms[0].t1.id='Reggie';  
+            console.log(rooms[0].t1.id, ' -> typer 1 Nickname');
         }else{
-            rooms[0].t2.id=socket.id;
-            console.log(rooms[0].t2.id, ' -> t2 socket id');
+            rooms[0].t2.socketId=socket.id;
+            rooms[0].t2.id='Rocky';
+            console.log(rooms[0].t2.id, ' -> typer 2 Nickname');
         }
         socket.join(rooms[0].first);
+        rooms[0].typers++;
+        console.log('Currents typers in room #First Come: ',rooms[0].typers);
+    }else{
+        socket.emit( 'join 1v1 request', false);
+        socket.join(rooms[1].second);
+        rooms[1].typers++;
+        console.log('Currents typers in room #Extras: ',rooms[1].typers);
     }
-    
-    
-    // else{
-    //     console.log('Currents typers in room #Extras: ',rooms[1].typers);
-    //     socket.emit( 'join 1v1 request', false);
-    //     socket.join(rooms[1].second);
-    // }
+
+    //returns winner of one v one session.
     const getWinner = ()=>{
-        return(rooms[0].t1.time>rooms[0].t2.time)?rooms[0].t2.id:rooms[0].t1.id
+        return (rooms[0].t1.time>rooms[0].t2.time)?rooms[0].t2.id:rooms[0].t1.id
     };
 
     socket.on('One on One challenger', (num)=> {
         console.log('a challenger has appeared');
-        rooms[0].typers<2?rooms[0].typers+=num:rooms[1].typers+=num;
-        socket.emit( 'start game',15);
+        if(rooms[0].typers<2){
+            rooms[0].typers+=num;
+        }else{
+            rooms[1].typers+=num;
+        }
+
+        if(rooms[0].typers===2){
+            socket.to('first come').emit( 'start game',15);
+        }
     });
 
     socket.on('send time!', async (time)=> {
         //TODO: logic for comparing times from clients and sharing winner with clients
-        if(socket.id===rooms[0].t1.id){
+        if(socket.id===rooms[0].t1.socketId){
             rooms[0].t1.time = time ;
-
         }
-
-        if(socket.id===rooms[0].t2.id){
+        if(socket.id===rooms[0].t2.socketId){
             rooms[0].t2.time = time ;
         }
         if(rooms[0].t1.time>0&&rooms[0].t2.time>0){
-            console.log(getWinner());
+            let winnerInfo ={
+                 winner:getWinner(),
+            }
+            socket.emit('received winner!',winnerInfo.winner);
         }
-        // let winner = 
-        //     setTimeOut(()=> {
-        //     return (t2>t1)?rooms[0].t1.id:rooms[0].t2.id
-        // },1500);
-        // console.log(winner);
-        // socket.emit( 'received winner', winner);
+       
     });
     
     socket.on('disconnect', () => {
-        console.log('user disconnected');
+        if(Object.keys(rooms[0].t1).includes())
+        console.log('user disconnected: ',socket.id);
       });
 });
 
