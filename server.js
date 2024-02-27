@@ -52,7 +52,15 @@ io.on('connection', (socket) => {
 
     //returns winner of one v one session.
     const getWinner = ()=>{
-        return (rooms[0].t1.time>rooms[0].t2.time)?rooms[0].t2.id:rooms[0].t1.id
+        let winner = {}
+        if(rooms[0].t1.time>rooms[0].t2.time){
+            winner.name=rooms[0].t2.id;
+            winner.socketId=rooms[0].t2.sockeId;
+        }else{
+            winner.name=rooms[0].t2.id;
+            winner.socketId=rooms[0].t2.sockeId;
+            }
+        return winner;
     };
 
     socket.on('One on One challenger', (num)=> {
@@ -77,10 +85,8 @@ io.on('connection', (socket) => {
             rooms[0].t2.time = time ;
         }
         if(rooms[0].t1.time>0&&rooms[0].t2.time>0){
-            let winnerInfo ={
-                 winner:getWinner(),
-            }
-            socket.emit('received winner!',winnerInfo.winner);
+            let winnerInfo = getWinner();
+            socket.emit('received winner!',winnerInfo);
         }
        
     });

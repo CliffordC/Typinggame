@@ -209,8 +209,13 @@
             socket.on('start game', (time,bool) => {
                 //roomJoin.innerText = 15;
             })
-            socket.on('received winner', (time,bool) => {
-
+            socket.on('received winner', (winner) =>{
+                console.log(winner);
+                if(socket.id===winner.socketId){
+                    roomJoin.innerText="you win!";
+                }else{
+                    roomJoin.innerText="you lost.";
+                }
             })
 
         </script>

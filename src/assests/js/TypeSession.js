@@ -80,16 +80,17 @@ export class TypeSession {
         };
         this.activateListners();
         this.placeInStr = 1;
-        this.refreshStr(0)
+        this.refreshStr();
         this.gameTime;
         this.startTime;
         this.endTime;
     }
-    refreshStr(num){
-        let randStr = num%5;
-
-        this.dictStr = '';
-        this.dictStr = dictionary[randStr];
+    refreshStr(){
+        if(dictionary.length===0){
+            this.dictStr = 'done';
+        }else{
+            this.dictStr = dictionary.pop();
+        }
         this.letterList = this.createLetterList();
         this.currentLetter = this.letterList[0];
         this.placeInStr = 1;
@@ -119,6 +120,7 @@ export class TypeSession {
             this.letterDict[keyPress].toggle('pressed');
         }else if(keyPress === 'enter'){
             //Do nothing for now...
+            //TODO: There's a bug when you press enter to move to the next string
         }
     };
     
@@ -203,8 +205,7 @@ export class TypeSession {
             for(let i = this.libraryContent.children.length-1; i >= 0;i--){
                 this.libraryContent.children[i].remove();
             }
-
-            this.refreshStr(Math.floor(Math.random() * 5));
+            this.refreshStr();
         }
     }
     
